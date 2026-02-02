@@ -1,0 +1,343 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2867
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\froman\fcharset0 TimesNewRomanPS-BoldMT;\f1\froman\fcharset0 Times-BoldItalic;\f2\froman\fcharset0 TimesNewRomanPSMT;
+\f3\fswiss\fcharset0 ArialMT;\f4\fnil\fcharset0 Menlo-Regular;\f5\fmodern\fcharset0 CourierNewPSMT;
+\f6\froman\fcharset0 Times-Roman;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red38\green38\blue38;\red255\green255\blue255;
+\red224\green224\blue224;\red25\green29\blue39;\red33\green118\blue199;\red252\green244\blue220;\red83\green104\blue112;
+\red37\green146\blue134;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;\cssrgb\c20000\c20000\c20000;\cssrgb\c100000\c100000\c100000;
+\csgenericrgb\c87761\c87761\c87761;\csgenericrgb\c9839\c11388\c15260\c95000;\cssrgb\c14902\c54510\c82353;\cssrgb\c99216\c96471\c89020;\cssrgb\c39608\c48235\c51373;
+\cssrgb\c16471\c63137\c59608;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww18920\viewh18880\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0\b\fs28 \cf2 \
+\pard\pardeftab720\partightenfactor0
+
+\f1\i\fs48 \cf3 \cb4 \expnd0\expndtw0\kerning0
+Principes de base de Docker et interface de ligne de commande
+\f2\i0\b0\fs28 \cf2 \cb1 \kerning1\expnd0\expndtw0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf2 1.
+\f3  
+\f2 T\'e9l\'e9charger l\'92image officielle 
+\f0\b nginx
+\f2\b0  depuis Docker Hub\
+	Je v\'e9rifie si docker est install\'e9 : \
+		\AppleHighlight-1 \AppleHilightClrSch-5 docker \'97version\AppleHighlight0 \AppleHilightClrSch0 \
+	
+\f4 \cf5 \cb6 \CocoaLigature0 Docker version 28.5.1, build e180ab8\
+
+\f2 \cf2 \cb1 \CocoaLigature1 \
+	Je t\'e9l\'e9charge l\'92image officielle de nginx :\
+	         \AppleHighlight-1 \AppleHilightClrSch-5 docker pull nginx:latest\AppleHighlight0 \AppleHilightClrSch0 \
+\
+	Je v\'e9rifie les images install\'e9es :\
+		\AppleHighlight-1 \AppleHilightClrSch-5 docker images\AppleHighlight0 \AppleHilightClrSch0 \
+	
+\f4 \cf5 \cb6 \CocoaLigature0 nginx        latest    c881927c4077   2 weeks ago   255MB\
+
+\f2 \cf2 \cb1 \CocoaLigature1 \
+2.
+\f3  
+\f2 Lancer un conteneur \'e0 partir de cette image en mode d\'e9tach\'e9, en mappant le port 8080 de l\'92host au port 80 du conteneur \
+		\AppleHighlight-1 \AppleHilightClrSch-5 docker run -d --name nginx-gomycode -p 8080:80 nginx:latest\AppleHighlight0 \AppleHilightClrSch0 \
+	Je liste les conteneurs actifs:\
+		\AppleHighlight-1 \AppleHilightClrSch-5 docker ps\AppleHighlight0 \AppleHilightClrSch0 \
+
+\f5 	
+\f4 \cf5 \cb6 \CocoaLigature0 816d344b1d1b   nginx:latest   "/docker-entrypoint.\'85"   53 seconds ago   Up 53 seconds   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   nginx-gomycode
+\f5 \cf2 \cb1 \CocoaLigature1 \
+	\
+	
+\f2 Dans le navigateur je lance : \AppleHighlight-1 \AppleHilightClrSch-5 http://localhost:8080\AppleHighlight0 \AppleHilightClrSch0  pour verifier si nains tourne correctement
+\f5 \
+\
+
+\f2 3.
+\f3  
+\f2 Utiliser 
+\f0\b docker exec 
+\f2\b0 pour entrer dans le conteneur et afficher le contenu de : 
+\f0\b /usr/share/nginx/html
+\f5\b0 \
+		\AppleHighlight-1 \AppleHilightClrSch-5 docker exec -it nginx-gomycode sh\AppleHighlight0 \AppleHilightClrSch0 \
+	
+\f2 A l\'92invite de commande, je lance la commande : \AppleHighlight-1 \AppleHilightClrSch-5 cd /usr/share/nginx/html\AppleHighlight0 \AppleHilightClrSch0  pour me positionner dans le repertoire html  \
+	Ensuite je lance la commande : \AppleHighlight-1 \AppleHilightClrSch-5 ls\AppleHighlight0 \AppleHilightClrSch0  pour voir le contenu du repertoire\
+	
+\f4 \cf5 \cb6 \CocoaLigature0 50x.html  index.html
+\f5 \cf2 \cb1 \CocoaLigature1 \
+	
+\f2 Je peux aussi lancer la commande :  \AppleHighlight-1 \AppleHilightClrSch-5 cat index.html\AppleHighlight0 \AppleHilightClrSch0  pour lire le contenu du fichier index.html
+\f5 \
+\
+
+\f2 4.
+\f3  
+\f2 Red\'e9marrer le conteneur et v\'e9rifier qu\'92il conserve sa configuration\
+	Pour red\'e9marrer le conteneur :\
+		\AppleHighlight-1 \AppleHilightClrSch-5 docker restart nginx-gomycode\AppleHighlight0 \AppleHilightClrSch0 \
+	Pour verifier si le conteneur tourne apr\'e8s le red\'e9marrage\
+		\AppleHighlight-1 \AppleHilightClrSch-5 docker ps \'97filter \'91\'92name=nginx-gomycode\'92\'92\AppleHighlight0 \AppleHilightClrSch0 \
+	
+\f4\fs24 \cf5 \cb6 \CocoaLigature0 816d344b1d1b   nginx:latest   "/docker-entrypoint.\'85"   27 minutes ago   Up 2 minutes   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   nginx-gomycode
+\f2\fs28 \cf2 \cb1 \CocoaLigature1 \
+	Je peux aussi v\'e9rifier que la configuration est sauvegard\'e9e en modifiant le fichier index.html, apr\'e8s le red\'e9marrage, le fichier est toujours conserv\'e9:\
+		\AppleHighlight-1 \AppleHilightClrSch-5 docker exec -it nginx-gomycode sh\AppleHighlight0 \AppleHilightClrSch0 \
+		installe nano : \AppleHighlight-1 \AppleHilightClrSch-5 apt update && apt install nano -y\AppleHighlight0 \AppleHilightClrSch0 \
+		\AppleHighlight-1 \AppleHilightClrSch-5 nano  
+\f0\b /usr/share/nginx/html/index.html\AppleHighlight0 \AppleHilightClrSch0 \
+	Apr\'e8s modification et sauvegarde, je red\'e9marre le conteneur :  
+\f2\b0 \AppleHighlight-1 \AppleHilightClrSch-5 docker restart nginx-gomycode\
+\AppleHighlight0 \AppleHilightClrSch0 	Je relance le navigateur pour verifier si la configuration n\'92est pas perdue.\
+\
+5.
+\f3  
+\f2 Supprimer le conteneur et l\'92image \
+	J\'92arrete le conteneur : \AppleHighlight-1 \AppleHilightClrSch-5 docker stop nginx-gomycode\AppleHighlight0 \AppleHilightClrSch0 \
+	Je supprime le conteneur :  \AppleHighlight-1 \AppleHilightClrSch-5 docker rm nginx-gomycode\AppleHighlight0 \AppleHilightClrSch0 \
+	Je supprime l\'92image : \AppleHighlight-1 \AppleHilightClrSch-5 docker rmi nginx:latest\AppleHighlight0 \AppleHilightClrSch0 \
+\
+\
+\pard\pardeftab720\partightenfactor0
+
+\f1\i\b\fs48 \cf3 \cb4 \expnd0\expndtw0\kerning0
+Images Docker et Dockerfiles
+\f6\i0\b0\fs36 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf3 1. Creation de mon projet python (gomycode-python-app)\
+\pard\pardeftab720\partightenfactor0
+\cf3 Les fichiers de mon projet : \
+	- app.py\
+	- requirements.txt\
+\
+2. Cr\'e9ation du fichier Dockerfile\
+	- Dockerfile\
+NB: je le cr\'e9e \'e0 la racine du projet\
+\
+3. Utilise python:3.12-slim comme image de base\
+	
+\f2\fs28 \cf2 \cb1 \kerning1\expnd0\expndtw0 \AppleHighlight-1 \AppleHilightClrSch-5 FROM python:3.12-slim\
+\
+	WORKDIR /app\
+\
+	COPY requirements.txt .\
+	RUN pip install --no-cache-dir -r requirements.txt\
+\
+	COPY app.py .\
+\
+	EXPOSE 5000\
+\
+	CMD ["python", "app.py"]\
+
+\f6\fs36 \cf3 \cb4 \expnd0\expndtw0\kerning0
+\AppleHighlight0 \AppleHilightClrSch0 \
+4. Construit l\'92image personnalis\'e9\
+\pard\pardeftab720\partightenfactor0
+
+\f2\fs28 \cf2 \cb1 \kerning1\expnd0\expndtw0 \AppleHighlight-1 \AppleHilightClrSch-5 	docker build -t gomycode-python-app:v1 .
+\f6\fs36 \cf3 \cb4 \expnd0\expndtw0\kerning0
+\AppleHighlight0 \AppleHilightClrSch0 \
+\
+5. Lance le conteneur \'e0 partir de l\'92image:\
+	\AppleHighlight-1 \AppleHilightClrSch-5 docker run -d \'97name python-gomycode -p 5001:5000 gomycode-python-app:v1\AppleHighlight0 \AppleHilightClrSch0 \
+\pard\pardeftab720\partightenfactor0
+\cf3 \AppleHighlight-1 \AppleHilightClrSch-2 NB: \AppleHighlight0 \AppleHilightClrSch0 j\'92ai utiliser le port 5001 de ma machine car le port 5000 est d\'e9j\'e0 occup\'e9.\
+Pour v\'e9rifier que l\'92application fonctionne je lance dans mon navigateur : \AppleHighlight-1 \AppleHilightClrSch-5 http://localhost:5001\AppleHighlight0 \AppleHilightClrSch0 \
+\
+6. Inspecter les couches de l\'92image :\
+	\AppleHighlight-1 \AppleHilightClrSch-5 docker history gomycode-python-app:v1\AppleHighlight0 \AppleHilightClrSch0 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf3 {{\NeXTGraphic Capture d’écran 2026-02-02 à 13.08.14.png \width15820 \height5580 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}�}\pard\pardeftab720\partightenfactor0
+\cf3 \
+\
+\
+\pard\pardeftab720\partightenfactor0
+
+\f1\i\b\fs48 \cf3 Volumes et stockage Docker
+\f6\i0\b0\fs36 \
+1. Creation d\'92un volume nomm\'e9 mysql_data\
+	\AppleHighlight-1 \AppleHilightClrSch-5 docker volume create mysql_data\AppleHighlight0 \AppleHilightClrSch0 \
+2 . V\'e9rifie que le volume est cr\'e9\'e9 :\
+	\AppleHighlight-1 \AppleHilightClrSch-5 docker volume ps | grep mysql_data\AppleHighlight0 \AppleHilightClrSch0 \
+	
+\f4\fs24 \cf5 \cb6 \kerning1\expnd0\expndtw0 \CocoaLigature0 local     mysql_data
+\f6\fs36 \cf3 \cb4 \expnd0\expndtw0\kerning0
+\CocoaLigature1 \
+3. Lance le conteneur MySQL\
+	\AppleHighlight-1 \AppleHilightClrSch-5 docker run -d \\\
+ 	 --name mysql-gomycode \\\
+ 	  -e MYSQL_ROOT_PASSWORD=gomycodepass \\\
+	  -e MYSQL_DATABASE=gomycodedb \\\
+	  -v mysql_data:/var/lib/mysql \\\
+	  mysql:8\AppleHighlight0 \AppleHilightClrSch0 \
+- V\'e9rifie si mon conteneur est bien cr\'e9\'e9  :  \AppleHighlight-1 \AppleHilightClrSch-5 docker ps | grep mysql-gomycode\AppleHighlight0 \AppleHilightClrSch0 \
+- Se connecter \'e0 MySQL :  \AppleHighlight-1 \AppleHilightClrSch-5 docker exec -it mysql-gomycode mysql -u root -p\AppleHighlight0 \AppleHilightClrSch0 \
+- Apr\'e8s avoir entr\'e9 mon mot de passe root, je me connecte \'e0 la base de donn\'e9es : \AppleHighlight-1 \AppleHilightClrSch-5 USE gomycodedb\AppleHighlight0 \AppleHilightClrSch0 \
+- Cr\'e9ation de la table users : \
+	\AppleHighlight-1 \AppleHilightClrSch-5 CREATE TABLE users (\
+	  id INT AUTO_INCREMENT PRIMARY KEY,\
+	  name VARCHAR(100)\
+	);\AppleHighlight0 \AppleHilightClrSch0 \
+- Insertion de donn\'e9es :\
+	\AppleHighlight-1 \AppleHilightClrSch-5 INSERT INTO users (name) VALUES ("Herv\'e9"), ("Allassane");\AppleHighlight0 \AppleHilightClrSch0 \
+- Arr\'eater et supprimer le conteneur:\
+	\AppleHighlight-1 \AppleHilightClrSch-5 docker stop mysql-gomycode\AppleHighlight0 \AppleHilightClrSch0 \
+	\AppleHighlight-1 \AppleHilightClrSch-5 docker rm mysql-gomycode\AppleHighlight0 \AppleHilightClrSch0 \
+- Relancer un conteneur avec le m\'eame volume\
+\pard\pardeftab720\partightenfactor0
+\cf3 \AppleHighlight-1 \AppleHilightClrSch-5 	docker run -d \\\
+ 	 --name mysql-gomycode \\\
+ 	  -e MYSQL_ROOT_PASSWORD=gomycodepass \\\
+	  -e MYSQL_DATABASE=gomycodedb \\\
+	  -v mysql_data:/var/lib/mysql \\\
+	  mysql:8\AppleHighlight0 \AppleHilightClrSch0 \
+- Je v\'e9rifie que mes donn\'e9es persistent :\
+	\AppleHighlight-1 \AppleHilightClrSch-5 docker exec -it mysql-gomycode mysql -u root -p\
+	USE gomycodedb\
+	SELECT * FROM users;\AppleHighlight0 \AppleHilightClrSch0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f1\i\b\fs48 \cf3 R\'e9seau Docker
+\f6\i0\b0\fs36 \
+1. Cr\'e9ation du r\'e9seau internal-net\
+	\AppleHighlight-1 \AppleHilightClrSch-5 docker network create internal-net\AppleHighlight0 \AppleHilightClrSch0 \
+Pour verifier la cr\'e9ation : \AppleHighlight-1 \AppleHilightClrSch-5 docker network ls | grep internal-net\AppleHighlight0 \AppleHilightClrSch0 \
+	
+\f4\fs24 \cf5 \cb6 \kerning1\expnd0\expndtw0 \CocoaLigature0 5e0b32c93b6c   internal-net   bridge    local
+\f6\fs36 \cf3 \cb4 \expnd0\expndtw0\kerning0
+\CocoaLigature1 \
+2. Lance deux conteneurs\
+	\AppleHighlight-1 \AppleHilightClrSch-5 docker run -d --name web --network internal-net nginx\AppleHighlight0 \AppleHilightClrSch0 \
+	\AppleHighlight-1 \AppleHilightClrSch-5 docker run -it --name client --network internal-net alpine sh\AppleHighlight0 \AppleHilightClrSch0 \
+NB: le conteneur client est lancer en mode interactif, ce qui me permet d\'92\'eatre \'e0 l\'92int\'e9rieur pour executer des commandes:\
+Lance un ping depuis client : \AppleHighlight-1 \AppleHilightClrSch-5 ping web\AppleHighlight0 \AppleHilightClrSch0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f4\fs24 \cf5 \cb6 \kerning1\expnd0\expndtw0 \CocoaLigature0 	/ # ping web\
+	PING web (172.18.0.2): 56 data bytes\
+	64 bytes from 172.18.0.2: seq=0 ttl=64 time=0.252 ms\
+	64 bytes from 172.18.0.2: seq=1 ttl=64 time=0.236 ms\
+	64 bytes from 172.18.0.2: seq=2 ttl=64 time=0.254 ms\
+	64 bytes from 172.18.0.2: seq=3 ttl=64 time=0.247 ms\
+	64 bytes from 172.18.0.2: seq=4 ttl=64 time=0.256 ms
+\f6\fs36 \cf3 \cb4 \expnd0\expndtw0\kerning0
+\CocoaLigature1 \
+\pard\pardeftab720\partightenfactor0
+\cf3 3. Expose une petite application sur un conteneur:\
+\pard\pardeftab720\partightenfactor0
+\cf3 \AppleHighlight-1 \AppleHilightClrSch-5 	docker run -d \\\
+ 	 --name app \\\
+ 	 --network internal-net \\\
+ 	 python:3.12-slim \\\
+ 	 python -m http.server 8000\AppleHighlight0 \AppleHilightClrSch0 \
+4. Depuis l\'92autre conteneur, faire un curl vers cette app via le nom du conteneur\
+Je me connecte au conteneur client en mode interactif:\
+	\AppleHighlight-1 \AppleHilightClrSch-5 docker start client\AppleHighlight0 \AppleHilightClrSch0 \
+	\AppleHighlight-1 \AppleHilightClrSch-5 docker exec -it client sh\AppleHighlight0 \AppleHilightClrSch0 \
+Pour lancer curl sur mon conteneur client, je dois l\'92installer :\
+	\AppleHighlight-1 \AppleHilightClrSch-5 apk update \
+	apk add curl\AppleHighlight0 \AppleHilightClrSch0 \
+Execute la commande : \AppleHighlight-1 \AppleHilightClrSch-5 curl http://app:8000\AppleHighlight0 \AppleHilightClrSch0 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf3 {{\NeXTGraphic Capture d’écran 2026-02-02 à 20.15.09.png \width7680 \height10700 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}�}\pard\pardeftab720\partightenfactor0
+\cf3 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f1\i\b\fs48 \cf3 Docker Compose\
+\pard\pardeftab720\partightenfactor0
+
+\f6\i0\b0\fs36 \cf3 1. Creation d\'92un dossier dockerCompose qui va contenir les deux applications backend et nginx\
+	\AppleHighlight-1 \AppleHilightClrSch-5 mkdir dockerCompose\
+	cd dockerCompose\
+	mkdir backend nginx\AppleHighlight0 \AppleHilightClrSch0 \
+2. Creation de l\'92application backend:\
+	Ajout des fichiers (app.py et requirements.txt) avec leur contenu\
+	\AppleHighlight-1 \AppleHilightClrSch-5 nano backend/app.py\
+	nano backend/requirements.txt\AppleHighlight0 \AppleHilightClrSch0 \
+       Creation du Dockerfile \'e0 partir de python:3.12-slim\
+	\AppleHighlight-1 \AppleHilightClrSch-5 nano backend/Dockerfile\AppleHighlight0 \AppleHilightClrSch0 \
+3. Creation de l\'92application nginx:\
+	Ajout du fichier (default.conf) avec son contenu\
+	Creation du Dockerfile \'e0 partir de nginx:alpine\
+\
+4. Creation du fichier docker-compose.yml\
+Je me positionne \'e0 la racine du dossier \'ab\'a0dockerCompose\'a0\'bb qui contient \'ab\'a0backend et nginx\'a0\'bb\
+Le contenu de mon docker-compose.yml :\
+\pard\pardeftab720\partightenfactor0
+
+\f4 \cf7 \cb8 version\cf9 : \cf10 "3.9"\cf9 \cb1 \
+\
+\cf7 \cb8 services\cf9 :\cb1 \
+\cb8   \cf7 backend\cf9 :\cb1 \
+\cb8     \cf7 build\cf9 : \cf10 ./backend\cf9 \cb1 \
+\cb8     \cf7 networks\cf9 :\cb1 \
+\cb8       - \cf10 appnet\cf9 \cb1 \
+\
+\cb8   \cf7 nginx\cf9 :\cb1 \
+\cb8     \cf7 build\cf9 : \cf10 ./nginx\cf9 \cb1 \
+\cb8     \cf7 ports\cf9 :\cb1 \
+\cb8       - \cf10 "8080:80"\cf9 \cb1 \
+\cb8     \cf7 depends_on\cf9 :\cb1 \
+\cb8       - \cf10 backend\cf9 \cb1 \
+\cb8     \cf7 networks\cf9 :\cb1 \
+\cb8       - \cf10 appnet\cf9 \cb1 \
+\
+\cf7 \cb8 networks\cf9 :\cb1 \
+\cb8   \cf7 appnet\cf9 :\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f6 \cf3 \cb4 NB: \
+La version du docker-compose est 3.9, les services ex\'e9cut\'e9s sont : backend et nginx, tous deux \'e0 la racine du projet dans les dossiers respectif  
+\f4 \cf10 \cb8 backend et nginx.
+\f6 \cf3 \cb4 \
+Tous deux utilise le r\'e9seau :  appnet, on demande explicitement de lancer le service backend avant nginx. Le port 80 du conteneur nginx est mapp\'e9 sur le port 8080 de l\'92host.\
+\
+5. Je lance la stack :  \AppleHighlight-1 \AppleHilightClrSch-5 docker-compose up -d\AppleHighlight0 \AppleHilightClrSch0 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf3 {{\NeXTGraphic Capture d’écran 2026-02-02 à 20.58.36.png \width9060 \height1920 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}�}\pard\pardeftab720\partightenfactor0
+\cf3 \
+6. Test dans le navigateur :\
+	\AppleHighlight-1 \AppleHilightClrSch-5 http://localhost:8080\AppleHighlight0 \AppleHilightClrSch0 \
+7. V\'e9rifications des logs :\
+	\AppleHighlight-1 \AppleHilightClrSch-5 docker-compose logs\AppleHighlight0 \AppleHilightClrSch0 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf3 {{\NeXTGraphic Capture d’écran 2026-02-02 à 21.04.33.png \width22160 \height12400 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}�}\pard\pardeftab720\partightenfactor0
+\cf3 \
+Les logs montre que l\'92attribut \'ab\'a0version\'a0\'bb est obsol\'e8te et aussi que mon projet n\'92est pas optimis\'e9 pour la production \
+\
+\
+\pard\pardeftab720\partightenfactor0
+\cf3 \AppleHighlight-1 \AppleHilightClrSch-2 NB: J\'92ai envoy\'e9 certaines images sur mon hub.\AppleHighlight0 \AppleHilightClrSch0 \
+Processus: \
+1 - Creer le repository sur le hub (\AppleHighlight-1 \AppleHilightClrSch-5 https://hub.docker.com/\AppleHighlight0 \AppleHilightClrSch0 )\
+2 - Mettre un tag sur l\'92image : \AppleHighlight-1 \AppleHilightClrSch-5 docker tag dockercompose-backend hgnaore/dockercompose-backend:V1\AppleHighlight0 \AppleHilightClrSch0 \
+3- Push sur le hub : \AppleHighlight-1 \AppleHilightClrSch-5 docker push hgnaore/dockercompose-backend:V1 \AppleHighlight0 \AppleHilightClrSch0 \
+\
+Lien des images sur le hub:\
+	\AppleHighlight-1 \AppleHilightClrSch-5 https://hub.docker.com/r/hgnaore/gomycode-python-app\
+\pard\pardeftab720\partightenfactor0
+\cf3 	https://hub.docker.com/r/hgnaore/dockercompose-backend\
+	https://hub.docker.com/r/hgnaore/dockercompose-nginx\
+\AppleHighlight0 \AppleHilightClrSch0 \
+\pard\pardeftab720\partightenfactor0
+\cf3 \
+\
+\
+\
+\
+\
+\
+}
